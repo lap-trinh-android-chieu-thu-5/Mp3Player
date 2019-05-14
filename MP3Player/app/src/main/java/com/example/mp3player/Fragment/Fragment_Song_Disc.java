@@ -1,0 +1,53 @@
+package com.example.mp3player.Fragment;
+
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+
+import com.example.mp3player.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class Fragment_Song_Disc extends Fragment {
+    View view;
+    CircleImageView mCircleImageView;
+    ObjectAnimator mOjectAnimator;
+
+    private int mPosition = 0;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_song_disc, container, false);
+        map();
+        return view;
+    }
+
+    public void startRotate(){
+        //mOjectAnimator.setDuration(mPosition);
+        mOjectAnimator.start();
+    }
+    public  void pauseRotate(){
+        mOjectAnimator.cancel();
+    }
+
+    public  void resumeRotate(){
+        //mOjectAnimator.resume();
+    }
+
+    private  void map(){
+        mCircleImageView = view.findViewById(R.id.image_view_circle);
+
+        mOjectAnimator = ObjectAnimator.ofFloat(mCircleImageView, "rotation", 0f, 360f);
+        mOjectAnimator.setDuration(10000);
+        mOjectAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mOjectAnimator.setRepeatCount(ValueAnimator.RESTART);
+        mOjectAnimator.setInterpolator(new LinearInterpolator());
+    }
+}

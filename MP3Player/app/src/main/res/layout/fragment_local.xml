@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#412568">
+
+    <RelativeLayout
+        android:id="@+id/relative_song"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight ="10dp"
+        android:layout_weight="1"
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background ="#D8EBEBEB"
+>
+
+        <ImageView
+
+            android:layout_marginLeft="10dp"
+            android:id="@+id/imageview1"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalmusic"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageview1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#000000"
+                android:textSize="25dp"
+
+                android:layout_marginBottom="10dp"
+                android:id="@+id/textview_name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bài hát"/>
+            <TextView
+                android:textColor="#000000"
+                android:textSize="18dp"
+
+                android:id="@+id/textview_number_song"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"/>
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_play_song"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_playlist"
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:background ="#D8EBEBEB">
+
+        <ImageView
+            android:id="@+id/imageview2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/iconlocalplaylist" />
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/imageview2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textview_number2"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Playlist"
+                android:textColor="#000000"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/textview_number_playlist"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textColor="#000000"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_play_playlist"
+
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_favorite"
+
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight ="10dp"
+        android:layout_weight="1"
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background ="#D8EBEBEB">
+
+        <ImageView
+            android:scaleType = "fitXY"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/imageview3"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocallove"
+            android:layout_width="50dp"
+            android:layout_height= "50dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageview3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#000000"
+                android:textSize="25dp"
+
+                android:layout_marginBottom="10dp"
+                android:id="@+id/textview_name3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhạc yêu thích"/>
+            <TextView
+                android:textColor="#000000"
+                android:textSize="18dp"
+
+                android:id="@+id/textview_number_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"/>
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_play_favorite"
+
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_artist"
+
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight ="10dp"
+        android:layout_weight="1"
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background ="#D8EBEBEB">
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/imageview4"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalsinger"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageview4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#000000"
+                android:textSize="25dp"
+
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ca sĩ"
+          />
+            <TextView
+                android:textColor="#000000"
+                android:textSize="18dp"
+
+                android:id="@+id/textview_number_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"/>
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_play_artist"
+
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_album"
+
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight ="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1"
+
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background ="#D8EBEBEB">
+
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/imageview5"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalalbum"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imageview5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#000000"
+                android:textSize="25dp"
+
+                android:layout_marginBottom="10dp"
+                android:id="@+id/textview_name5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Album"/>
+            <TextView
+                android:textColor="#000000"
+                android:textSize="18dp"
+                android:id="@+id/textview_number_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"/>
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/image_button_play_album"
+
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/iconlocalplay"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+</LinearLayout>
