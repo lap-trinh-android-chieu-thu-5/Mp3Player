@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         map();
         init();
         initPermission();
-        //scanMusicExternal();
     }
 
     private  void init(){
@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.getTabAt(0).setIcon(R.drawable.iconlocal);
         mTabLayout.getTabAt(1).setIcon(R.drawable.iconhome);
         mTabLayout.getTabAt(2).setIcon(R.drawable.iconsearch);
+
+        mTabLayout.setBackgroundColor(Color.parseColor("#280D4D"));
     }
 
     private void map(){
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
                 //Permisson don't granted
                 if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     Toast.makeText(MainActivity.this, "Permission isn't granted ", Toast.LENGTH_SHORT).show();
@@ -101,7 +102,8 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
             }else{
-                int b= 0;
+                //quet nhac neu duoc su cho phep
+                //scanMusicExternal();
             }
         }
     }
@@ -112,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length == 1 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(MainActivity.this, "Permision Write File is Granted", Toast.LENGTH_SHORT).show();
+
+                //quet nhac neu duoc su cho phep
+                //scanMusicExternal();
             } else {
                 Toast.makeText(MainActivity.this, "Permision Write File is Denied", Toast.LENGTH_SHORT).show();
             }

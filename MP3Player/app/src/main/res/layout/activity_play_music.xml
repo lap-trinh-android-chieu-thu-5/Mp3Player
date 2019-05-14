@@ -10,7 +10,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.PlayMusicActivity">
 
-    
+
     <android.support.v7.widget.Toolbar
         android:background="#354B83"
         android:id="@+id/toolbar_music_play"
@@ -24,7 +24,7 @@
         android:layout_weight="8.6"></android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:background="#0C173A"
+        android:background="#350705"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.4"
@@ -46,7 +46,7 @@
                 android:gravity="center"
                 android:text="00:00"
                 android:textColor="#ffff"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <SeekBar
@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:text="00:00"
                 android:textColor="#ffff"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -75,42 +75,51 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:layout_marginRight="40dp"
                 android:id="@+id/image_button_suffle"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/iconsuffle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/iconunsuffle"
                 android:scaleType="fitXY" />
 
             <ImageButton
+                android:layout_margin="5dp"
+
                 android:id="@+id/image_button_preview"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@null"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:scaleType="fitXY"
                 android:src="@drawable/iconpreview" />
 
             <ImageButton
+                android:layout_margin="5dp"
+
                 android:id="@+id/image_button_play"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:background="@drawable/iconplay"
                 android:scaleType="fitXY" />
 
             <ImageButton
+                android:layout_margin="5dp"
+
                 android:id="@+id/image_button_next"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@null"
                 android:scaleType="fitXY"
                 android:src="@drawable/iconnext" />
 
             <ImageButton
+                android:layout_marginLeft="40dp"
+
                 android:id="@+id/image_button_repeat"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@null"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/iconunrepeat"
                 android:scaleType="fitXY"
-                android:src="@drawable/iconrepeat" />
+                />
         </LinearLayout>
 
 

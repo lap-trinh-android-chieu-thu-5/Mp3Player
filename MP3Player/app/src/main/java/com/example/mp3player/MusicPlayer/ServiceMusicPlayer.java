@@ -33,7 +33,9 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     private final IBinder mMusicBind = new MusicBinder();
     public String mSongTitle = "";
     private static final int NOTIFY_ID = 1;
-    private boolean mIsShuffle = false;
+    public boolean isShuffle = false;
+    public boolean isRepeat = false;
+
     private Random mRandom = new Random();
 
     private PlayBackInfoListenerInterface mPlaybackInfoListener;
@@ -69,8 +71,15 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     @Override
     public void onCompletion(MediaPlayer mp) {
         if (mPlayer.getCurrentPosition() > 0) {
-            mp.reset();
-            playNext();
+
+            if(isRepeat){
+                mp.reset();
+                playSong();
+            }else{
+                mp.reset();
+                playNext();
+            }
+
         }
     }
 
@@ -173,7 +182,7 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     }
 
     public void playNext() {
-        if (mIsShuffle) {
+        if (isShuffle) {
             int newSongPos = mSongPos;
             while (newSongPos == mSongPos) {
                 newSongPos = mRandom.nextInt(mSongs.size());
@@ -203,8 +212,13 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     }
 
     public void setShuffle() {
-        if (mIsShuffle) mIsShuffle = false;
-        else mIsShuffle = true;
+        if (isShuffle) isShuffle = false;
+        else isShuffle = true;
+    }
+
+    public void setRepeat() {
+        if (isRepeat) isRepeat = false;
+        else isRepeat = true;
     }
 
     public void setPlaybackInfoListener(PlayBackInfoListenerInterface listener) {

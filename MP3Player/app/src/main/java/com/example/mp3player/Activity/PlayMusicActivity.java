@@ -49,6 +49,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
     private int mSeekToTimePause = 0;
     private boolean mIsPlaying = false;
 
+
     //fragment
     Fragment_Song_Disc fragmentSongDisc;
     Fragment_Playing_List fragmentPlayingList;
@@ -238,6 +239,11 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         mImgBtnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mServiceMusicPlayer.isShuffle){
+                    mImgBtnRandom.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconunsuffle));
+                }else{
+                    mImgBtnRandom.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconshuffled));
+                }
                 mServiceMusicPlayer.setShuffle();
             }
         });
@@ -245,7 +251,12 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         mImgBtnRepeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // setTimeSong();
+                if(mServiceMusicPlayer.isRepeat){
+                    mImgBtnRepeat.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconunrepeat));
+                }else{
+                    mImgBtnRepeat.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconrepeat));
+                }
+                mServiceMusicPlayer.setRepeat();
             }
         });
     }
@@ -262,6 +273,13 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
             mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
 
             updateTime();
+
+            mIsPlaying = true;
+            playSongList();
+            //set title
+            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+            fragmentSongDisc.startRotate();
         }
 
         @Override
