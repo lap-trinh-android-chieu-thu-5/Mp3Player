@@ -64,7 +64,9 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         stopService(mPlayIntent);
 
         //stop thread update time
-        mHandlerUpdateTime.removeCallbacksAndMessages(null);
+        if(mHandlerUpdateTime != null) {
+            mHandlerUpdateTime.removeCallbacksAndMessages(null);
+        }
         super.onDestroy();
     }
 
@@ -94,8 +96,8 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
 
             switch (type_play){
                 case "play_all_song":
-                    List<Song> songs = Song.listAll(Song.class);
-                    lstSong = songs;
+                    List<Song> songAll = Song.listAll(Song.class);
+                    lstSong = songAll;
 
                     break;
                 case "play_single_song":
@@ -106,12 +108,22 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                         lstSong.add(song);
                     }
                     break;
+                case "play_favorite":
+                    List<Song> songFavorite = Song.find(Song.class, "is_favorite = ?",  "1");
+                    lstSong = songFavorite;
+                    break;
+                case "play_choose_song":
+                    List<Song> songChoose = new ArrayList<>();
+                    ArrayList<String> arrayListChooeSong = intent.getStringArrayListExtra("list_choose_song");
+                    for(int i = 0; i < arrayListChooeSong.size();i ++){
+                        List<Song> songCheckList = Song.find(Song.class, "id_song = ?", arrayListChooeSong.get(i));
+                        Song song = songCheckList.get(0);
+                        songChoose.add(song);
+                    }
+                    lstSong = songChoose;
+                    break;
             }
 
-            if(intent.hasExtra("songs")){
-                List<Song> songs =intent.getParcelableArrayListExtra("songs");
-                lstSong = songs;
-            }
         }
     }
 
@@ -213,7 +225,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                             mIsPaused = false;
                             mServiceMusicPlayer.start();
                             mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
-                            fragmentSongDisc.startRotate();
+                            fragmentSongDisc.resumeRotate();
                         }else{
                         }
                     }
@@ -242,7 +254,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                 if(mServiceMusicPlayer.isShuffle){
                     mImgBtnRandom.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconunsuffle));
                 }else{
-                    mImgBtnRandom.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconshuffled));
+                    mImgBtnRandom.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconsuffle));
                 }
                 mServiceMusicPlayer.setShuffle();
             }
@@ -272,14 +284,17 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
             mIsMusicBound = true;
             mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
 
-            updateTime();
 
-            mIsPlaying = true;
-            playSongList();
-            //set title
-            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
-            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
-            fragmentSongDisc.startRotate();
+            if(lstSong.size() > 0){
+                updateTime();
+                mIsPlaying = true;
+                playSongList();
+                //set title
+                mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                fragmentSongDisc.startRotate();
+            }
+
         }
 
         @Override

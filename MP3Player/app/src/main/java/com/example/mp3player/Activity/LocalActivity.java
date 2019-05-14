@@ -73,7 +73,11 @@ public class LocalActivity extends AppCompatActivity {
                 this.mViewPager.setCurrentItem(0);
                 break;
             }
-            case "favorite":{
+            case "playlist":{
+                this.mViewPager.setCurrentItem(1);
+                break;
+            }
+            case "favorite_list":{
                 this.mViewPager.setCurrentItem(2);
                 break;
             }
@@ -81,10 +85,7 @@ public class LocalActivity extends AppCompatActivity {
                 this.mViewPager.setCurrentItem(3);
                 break;
             }
-            case "playlist":{
-                this.mViewPager.setCurrentItem(1);
-                break;
-            }
+
             case "album":{
                 this.mViewPager.setCurrentItem(4);
                 break;

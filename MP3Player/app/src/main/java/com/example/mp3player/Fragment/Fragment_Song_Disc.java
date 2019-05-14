@@ -20,7 +20,7 @@ public class Fragment_Song_Disc extends Fragment {
     CircleImageView mCircleImageView;
     ObjectAnimator mOjectAnimator;
 
-    private int mPosition = 0;
+    private long mCurrentPlayTime = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,24 +30,25 @@ public class Fragment_Song_Disc extends Fragment {
     }
 
     public void startRotate(){
-        //mOjectAnimator.setDuration(mPosition);
         mOjectAnimator.start();
     }
     public  void pauseRotate(){
+        mCurrentPlayTime = mOjectAnimator.getCurrentPlayTime();
         mOjectAnimator.cancel();
     }
 
     public  void resumeRotate(){
-        //mOjectAnimator.resume();
+        mOjectAnimator.start();
+        mOjectAnimator.setCurrentPlayTime(mCurrentPlayTime);
     }
 
     private  void map(){
         mCircleImageView = view.findViewById(R.id.image_view_circle);
 
         mOjectAnimator = ObjectAnimator.ofFloat(mCircleImageView, "rotation", 0f, 360f);
-        mOjectAnimator.setDuration(10000);
-        mOjectAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        mOjectAnimator.setRepeatCount(ValueAnimator.RESTART);
+        mOjectAnimator.setDuration(5000);
+        mOjectAnimator.setRepeatCount(10000);
+
         mOjectAnimator.setInterpolator(new LinearInterpolator());
     }
 }

@@ -38,10 +38,10 @@
             android:id="@+id/textview_song_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="180dp"
+            android:maxWidth="150dp"
             android:text="Ten bai hat"
             android:textColor="#030303"
-            android:textSize="20sp"/>
+            android:textSize="16sp"/>
 
         <TextView
             android:layout_marginLeft="2dp"
@@ -53,9 +53,9 @@
             android:id="@+id/textview_artist_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="180dp"
+            android:maxWidth="150dp"
             android:text="Ten ca si"
-            android:textSize="20sp"/>
+            android:textSize="16sp"/>
 
         <ImageButton
             android:padding="1dp"
@@ -74,6 +74,15 @@
             android:id="@+id/image_button_play"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_toLeftOf="@id/image_button_menu"
+            android:layout_marginRight="2dp" />
+
+        <ImageButton
+            android:background="@drawable/iconpopupmenu"
+            android:layout_centerVertical="true"
+            android:id="@+id/image_button_menu"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp" />
     </RelativeLayout>

@@ -122,6 +122,7 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     }
 
     public void playSong() {
+
         mPlayer.reset();
         Song playSong = mSongs.get(mSongPos);
         mSongTitle = playSong.name;
