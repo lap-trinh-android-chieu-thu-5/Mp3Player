@@ -10,16 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mp3player.Adapter.LocalArtistViewPaggerAdapter;
-import com.example.mp3player.Interface.ItemClickAlbum;
 import com.example.mp3player.Interface.ItemClickArtist;
+import com.example.mp3player.Interface.ItemClickPlaylist;
 import com.example.mp3player.R;
 
-public class Fragment_Local_Album_Main extends Fragment implements ItemClickAlbum {
+public class Fragment_Local_Playlist_Main  extends Fragment implements ItemClickPlaylist {
     private boolean isExit = false;
     private ViewPager mViewPager;
     View view;
-    private Fragment_Local_Album mFragment_local_album;
-    private Fragment_Local_Album_Detail mFragment_local_album_detail;
+    private Fragment_Local_Playlist mFragment_local_playlist;
+    private Fragment_Local_Playlist_Detail mFragment_local_playlist_detail;
     @Override
     public void onStart() {
         super.onStart();
@@ -31,7 +31,7 @@ public class Fragment_Local_Album_Main extends Fragment implements ItemClickAlbu
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_local_artist_main, container, false);
+        view = inflater.inflate(R.layout.fragment_local_playlist_main, container, false);
         return view;
     }
 
@@ -39,14 +39,14 @@ public class Fragment_Local_Album_Main extends Fragment implements ItemClickAlbu
         LocalArtistViewPaggerAdapter localArtistViewPaggerAdapter = new LocalArtistViewPaggerAdapter(getChildFragmentManager());
 
         if(isExit == false){
-            this.mFragment_local_album = new Fragment_Local_Album();
-            this.mFragment_local_album.setOnClick(this);
-            this.mFragment_local_album_detail = new Fragment_Local_Album_Detail();
+            this.mFragment_local_playlist = new Fragment_Local_Playlist();
+            this.mFragment_local_playlist.setOnClick(this);
+            this.mFragment_local_playlist_detail = new Fragment_Local_Playlist_Detail();
         }
 
 
-        localArtistViewPaggerAdapter.addFragment(mFragment_local_album);
-        localArtistViewPaggerAdapter.addFragment(mFragment_local_album_detail);
+        localArtistViewPaggerAdapter.addFragment(mFragment_local_playlist);
+        localArtistViewPaggerAdapter.addFragment(mFragment_local_playlist_detail);
 
         mViewPager.setAdapter(localArtistViewPaggerAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -58,7 +58,7 @@ public class Fragment_Local_Album_Main extends Fragment implements ItemClickAlbu
             @Override
             public void onPageSelected(int position) {
                 if(position == 1){
-                    mFragment_local_album_detail.init();
+                    mFragment_local_playlist_detail.init();
                 }
             }
 
@@ -74,9 +74,9 @@ public class Fragment_Local_Album_Main extends Fragment implements ItemClickAlbu
 
 
     @Override
-    public void onClick(String albumId) {
-        this.mFragment_local_album_detail.setAlbumId(albumId);
-        this.mFragment_local_album_detail.init();
+    public void onClick(String playlistId) {
+        this.mFragment_local_playlist_detail.setPlaylistId(playlistId);
+        this.mFragment_local_playlist_detail.init();
         mViewPager.setCurrentItem(1);
     }
 }

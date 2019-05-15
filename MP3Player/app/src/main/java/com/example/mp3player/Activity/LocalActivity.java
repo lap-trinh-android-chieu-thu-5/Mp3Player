@@ -15,6 +15,7 @@ import com.example.mp3player.Fragment.Fragment_Local_Artist;
 import com.example.mp3player.Fragment.Fragment_Local_Artist_Main;
 import com.example.mp3player.Fragment.Fragment_Local_Favorite;
 import com.example.mp3player.Fragment.Fragment_Local_Playlist;
+import com.example.mp3player.Fragment.Fragment_Local_Playlist_Main;
 import com.example.mp3player.Fragment.Fragment_Local_Song_List;
 import com.example.mp3player.Fragment.Fragment_Search;
 import com.example.mp3player.R;
@@ -45,7 +46,7 @@ public class LocalActivity extends AppCompatActivity {
         MainViewPaggerAdapter mainViewPaggerAdapter = new MainViewPaggerAdapter(getSupportFragmentManager());
 
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Song_List(), "");
-        mainViewPaggerAdapter.addFragment(new Fragment_Local_Playlist(),"");
+        mainViewPaggerAdapter.addFragment(new Fragment_Local_Playlist_Main(),"");
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Favorite(), "");
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Artist_Main(),"");
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Album_Main(), "");
@@ -75,7 +76,7 @@ public class LocalActivity extends AppCompatActivity {
                 this.mViewPager.setCurrentItem(0);
                 break;
             }
-            case "playlist":{
+            case "playlist_list":{
                 this.mViewPager.setCurrentItem(1);
                 break;
             }

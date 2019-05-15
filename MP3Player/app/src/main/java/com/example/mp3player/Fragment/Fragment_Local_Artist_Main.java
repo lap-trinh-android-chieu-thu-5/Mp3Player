@@ -74,7 +74,6 @@ public class Fragment_Local_Artist_Main extends Fragment implements ItemClickArt
 
     @Override
     public void onClick(String artistId) {
-        mFragment_local_artist_detail.setArtistId(artistId);
         this.mFragment_local_artist_detail.setArtistId(artistId);
         this.mFragment_local_artist_detail.init();
         mViewPager.setCurrentItem(1);

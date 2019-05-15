@@ -154,6 +154,10 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.relative_playlist: {
+                Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
+                intentLocalActivity.putExtra("fragment_open", "playlist_list");
+
+                getActivity().startActivity(intentLocalActivity);
                 break;
             }
             case R.id.relative_favorite: {
