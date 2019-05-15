@@ -81,7 +81,7 @@ public class LocalActivity extends AppCompatActivity {
                 this.mViewPager.setCurrentItem(2);
                 break;
             }
-            case "artist":{
+            case "artist_list":{
                 this.mViewPager.setCurrentItem(3);
                 break;
             }

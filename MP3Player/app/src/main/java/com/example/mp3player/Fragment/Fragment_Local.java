@@ -19,6 +19,7 @@ import com.example.mp3player.Activity.MainActivity;
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Adapter.MainViewPaggerAdapter;
 import com.example.mp3player.Model.Local.Album;
+import com.example.mp3player.Model.Local.Artist;
 import com.example.mp3player.Model.Local.Playlist;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
@@ -103,7 +104,7 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
             mTextViewNumberPlaylist.setText("0");
         }
         mTextViewNumberFavorite.setText(String.valueOf(Song.find(Song.class, "is_favorite = ?", "1").size()));
-        mTextViewNumberArtist.setText(String.valueOf(Album.listAll(Album.class).size()));
+        mTextViewNumberArtist.setText(String.valueOf(Artist.listAll(Album.class).size()));
         mTextViewNumberAlbum.setText(String.valueOf(Album.listAll(Album.class).size()));
     }
 
@@ -130,6 +131,9 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.image_button_play_artist: {
+                Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
+                intentLocalActivity.putExtra("type_play", "artist_list");
+                getActivity().startActivity(intentLocalActivity);
                 break;
             }
             case R.id.image_button_play_album: {
@@ -156,6 +160,9 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.relative_artist: {
+                Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
+                intentLocalActivity.putExtra("fragment_open", "artist_list");
+                getActivity().startActivity(intentLocalActivity);
                 break;
             }
             case R.id.relative_album: {
