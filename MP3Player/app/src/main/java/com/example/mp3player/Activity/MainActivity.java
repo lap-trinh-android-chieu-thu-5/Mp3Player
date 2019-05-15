@@ -13,6 +13,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.mp3player.Adapter.LocalSongListAdapter;
@@ -31,11 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+    Fragment_Local fragment_local = new Fragment_Local();
+    Fragment_Search fragment_search = new Fragment_Search();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         map();
         init();
         initPermission();
@@ -44,17 +49,45 @@ public class MainActivity extends AppCompatActivity {
     private  void init(){
         MainViewPaggerAdapter mainViewPaggerAdapter = new MainViewPaggerAdapter(getSupportFragmentManager());
 
-        mainViewPaggerAdapter.addFragment(new Fragment_Local(), "Cá nhân");
-        mainViewPaggerAdapter.addFragment(new Fragment_Home(),"Trang chủ");
-        mainViewPaggerAdapter.addFragment(new Fragment_Search(), "Tìm kiếm");
+        mainViewPaggerAdapter.addFragment(fragment_local, "");
+        //mainViewPaggerAdapter.addFragment(new Fragment_Home(),"Trang chủ");
+        mainViewPaggerAdapter.addFragment(fragment_search, "");
 
         mViewPager.setAdapter(mainViewPaggerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).setIcon(R.drawable.iconlocal);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.iconhome);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.iconsearch);
+        mTabLayout.getTabAt(0).setIcon(R.drawable.iconhome);
+
+        //mTabLayout.getTabAt(0).setIcon(R.drawable.iconlocal);
+        //mTabLayout.getTabAt(1).setIcon(R.drawable.iconhome);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.iconsearch);
 
         mTabLayout.setBackgroundColor(Color.parseColor("#280D4D"));
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                int a= 0;
+                switch (position){
+                    case 0:
+                        getSupportActionBar().show();
+                        break;
+                    case 1:
+                        getSupportActionBar().hide();
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void map(){
@@ -123,7 +156,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-
     }
 }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_Local_Artist_Detail extends Fragment {
+    CheckBox mCheckBoxAll;
     String mArtistId;
     boolean isEdit = false;
     View view;
@@ -51,11 +52,15 @@ public class Fragment_Local_Artist_Detail extends Fragment {
         this.mRecyclerView = view.findViewById(R.id.recyclerview_song_list);
         this.mImgButtonEdit = view.findViewById(R.id.image_button_option);
         this.mImgButtonPlay = view.findViewById(R.id.image_button_play);
+        this.mCheckBoxAll = view.findViewById(R.id.checkbox_all);
+
 
         if(isEdit){
             mImgButtonPlay.setVisibility(View.VISIBLE);
+            mCheckBoxAll.setVisibility(View.VISIBLE);
         }else {
             mImgButtonPlay.setVisibility(View.GONE);
+            mCheckBoxAll.setVisibility(View.GONE);
         }
 
 
@@ -96,6 +101,8 @@ public class Fragment_Local_Artist_Detail extends Fragment {
                     mLocalSongListAdapter.isEdit = false;
                     isEdit = false;
                     mImgButtonPlay.setVisibility(View.GONE);
+                    mCheckBoxAll.setVisibility(View.GONE);
+
                     mLocalSongListAdapter.notifyDataSetChanged();
 
                     //Bat dau xoa
@@ -104,9 +111,25 @@ public class Fragment_Local_Artist_Detail extends Fragment {
                     mLocalSongListAdapter.isEdit = true;
                     isEdit = true;
                     mImgButtonPlay.setVisibility(View.VISIBLE);
+                    mCheckBoxAll.setVisibility(View.VISIBLE);
+
                     mLocalSongListAdapter.notifyDataSetChanged();
 
                     //Mo rong check box xoa ra
+                }
+
+            }
+        });
+
+        this.mCheckBoxAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCheckBoxAll.isChecked()){
+                    mLocalSongListAdapter.isCheckAll = true;
+                    mLocalSongListAdapter.notifyDataSetChanged();
+                }else {
+                    mLocalSongListAdapter.isCheckAll = false;
+                    mLocalSongListAdapter.notifyDataSetChanged();
                 }
 
             }

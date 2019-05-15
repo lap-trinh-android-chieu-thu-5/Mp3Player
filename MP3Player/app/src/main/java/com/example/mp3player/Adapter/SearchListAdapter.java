@@ -2,20 +2,12 @@ package com.example.mp3player.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
-import java.util.List;
-
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,27 +18,29 @@ import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
-public class LocalSongListAdapter extends RecyclerView.Adapter<LocalSongListAdapter.ViewHolder> {
+import java.util.List;
+
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
     public boolean isCheckAll = false;
     public boolean isEdit = false;
     private Context mContext;
     private List<Song> lstSong;
 
-    public LocalSongListAdapter(Context context, List<Song> lstSong, boolean isEdit){
+    public SearchListAdapter(Context context, List<Song> lstSong, boolean isEdit){
         this.mContext = context;
         this.lstSong = lstSong;
         this.isEdit = isEdit;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.local_song_list_item,parent, false);
-        return new ViewHolder(view);
+        return new SearchListAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(SearchListAdapter.ViewHolder holder, int position) {
         Song song = lstSong.get(position);
         holder.mTxtArtistName.setText(song.artist.name);
         holder.mTxtSongName.setText(song.name);
@@ -203,7 +197,7 @@ public class LocalSongListAdapter extends RecyclerView.Adapter<LocalSongListAdap
         }
     }
 
-    public void setLstSong(List<Song> lstSong){
-        this.lstSong = lstSong;
+    public void onClickPlaySongChoose(){
+
     }
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,11 +133,14 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
             }
             case R.id.image_button_play_artist: {
                 Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
-                intentLocalActivity.putExtra("type_play", "artist_list");
+                intentLocalActivity.putExtra("fragment_open", "artist_list");
                 getActivity().startActivity(intentLocalActivity);
                 break;
             }
             case R.id.image_button_play_album: {
+                Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
+                intentLocalActivity.putExtra("fragment_open", "album_list");
+                getActivity().startActivity(intentLocalActivity);
                 break;
             }
 

@@ -33,7 +33,8 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.example.mp3player" />
 
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".Activity.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

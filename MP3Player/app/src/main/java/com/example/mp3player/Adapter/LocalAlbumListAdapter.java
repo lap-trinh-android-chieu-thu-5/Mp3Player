@@ -39,9 +39,9 @@ public class LocalAlbumListAdapter extends RecyclerView.Adapter<LocalAlbumListAd
     @Override
     public void onBindViewHolder(LocalAlbumListAdapter.ViewHolder holder, int position) {
         Album album = mLstAlbum.get(position);
-        holder.idArtist = album.idAlbum;
+        holder.idAlbum = album.idAlbum;
         holder.mTxtArtistName.setText(album.name);
-        List<Song> songArtist = Song.find(Song.class, "artist = ?",  String.valueOf(album.getId()));
+        List<Song> songArtist = Song.find(Song.class, "album = ?",  String.valueOf(album.getId()));
         holder.mTxtNumSong.setText(String.valueOf(songArtist.size()));
 
     }
@@ -52,7 +52,7 @@ public class LocalAlbumListAdapter extends RecyclerView.Adapter<LocalAlbumListAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public Long idArtist;
+        public Long idAlbum;
         TextView mTxtArtistName, mTxtNumSong;
         ImageButton mImgBtnPlay;
         ImageView mImgViewDisplay;

@@ -27,6 +27,7 @@ import java.util.List;
 public class Fragment_Local_Favorite extends Fragment {
     boolean isEdit = false;
     View view;
+    CheckBox mCheckBoxAll;
     LocalFavoriteListAdapter mLocalFavoriteListAdapter;
     RecyclerView mRecyclerView;
     ImageButton mImgButtonEdit;
@@ -51,11 +52,14 @@ public class Fragment_Local_Favorite extends Fragment {
         this.mRecyclerView = view.findViewById(R.id.recyclerview_song_list);
         this.mImgButtonEdit = view.findViewById(R.id.image_button_option);
         this.mImgButtonPlay = view.findViewById(R.id.image_button_play);
+        this.mCheckBoxAll = view.findViewById(R.id.checkbox_all);
 
         if(isEdit){
             mImgButtonPlay.setVisibility(View.VISIBLE);
+            mCheckBoxAll.setVisibility(View.VISIBLE);
         }else {
             mImgButtonPlay.setVisibility(View.GONE);
+            mCheckBoxAll.setVisibility(View.GONE);
         }
 
 
@@ -96,6 +100,8 @@ public class Fragment_Local_Favorite extends Fragment {
                     mLocalFavoriteListAdapter.isEdit = false;
                     isEdit = false;
                     mImgButtonPlay.setVisibility(View.GONE);
+                    mCheckBoxAll.setVisibility(View.GONE);
+
                     mLocalFavoriteListAdapter.notifyDataSetChanged();
 
                     //Bat dau xoa
@@ -104,9 +110,25 @@ public class Fragment_Local_Favorite extends Fragment {
                     mLocalFavoriteListAdapter.isEdit = true;
                     isEdit = true;
                     mImgButtonPlay.setVisibility(View.VISIBLE);
+                    mCheckBoxAll.setVisibility(View.VISIBLE);
+
                     mLocalFavoriteListAdapter.notifyDataSetChanged();
 
                     //Mo rong check box xoa ra
+                }
+
+            }
+        });
+
+        this.mCheckBoxAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mCheckBoxAll.isChecked()){
+                    mLocalFavoriteListAdapter.isCheckAll = true;
+                    mLocalFavoriteListAdapter.notifyDataSetChanged();
+                }else {
+                    mLocalFavoriteListAdapter.isCheckAll = false;
+                    mLocalFavoriteListAdapter.notifyDataSetChanged();
                 }
 
             }

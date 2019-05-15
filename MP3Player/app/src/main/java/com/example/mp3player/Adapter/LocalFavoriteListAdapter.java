@@ -21,6 +21,7 @@ import com.example.mp3player.R;
 import java.util.List;
 
 public class LocalFavoriteListAdapter extends RecyclerView.Adapter<LocalFavoriteListAdapter.ViewHolder> {
+    public boolean isCheckAll = false;
     public boolean isEdit = false;
     private Context mContext;
     private List<Song> lstSong;
@@ -60,6 +61,11 @@ public class LocalFavoriteListAdapter extends RecyclerView.Adapter<LocalFavorite
             holder.checkBoxEdit.setVisibility(View.GONE);
         }else{
             holder.checkBoxEdit.setVisibility(View.VISIBLE);
+            if(isCheckAll){
+                holder.checkBoxEdit.setChecked(true);
+            }else{
+                holder.checkBoxEdit.setChecked(false);
+            }
         }
 
     }
