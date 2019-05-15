@@ -10,7 +10,9 @@ import com.example.mp3player.Adapter.MainViewPaggerAdapter;
 import com.example.mp3player.Fragment.Fragment_Home;
 import com.example.mp3player.Fragment.Fragment_Local;
 import com.example.mp3player.Fragment.Fragment_Local_Album;
+import com.example.mp3player.Fragment.Fragment_Local_Album_Main;
 import com.example.mp3player.Fragment.Fragment_Local_Artist;
+import com.example.mp3player.Fragment.Fragment_Local_Artist_Main;
 import com.example.mp3player.Fragment.Fragment_Local_Favorite;
 import com.example.mp3player.Fragment.Fragment_Local_Playlist;
 import com.example.mp3player.Fragment.Fragment_Local_Song_List;
@@ -45,8 +47,8 @@ public class LocalActivity extends AppCompatActivity {
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Song_List(), "");
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Playlist(),"");
         mainViewPaggerAdapter.addFragment(new Fragment_Local_Favorite(), "");
-        mainViewPaggerAdapter.addFragment(new Fragment_Local_Artist(),"");
-        mainViewPaggerAdapter.addFragment(new Fragment_Local_Album(), "");
+        mainViewPaggerAdapter.addFragment(new Fragment_Local_Artist_Main(),"");
+        mainViewPaggerAdapter.addFragment(new Fragment_Local_Album_Main(), "");
 
 
         mViewPager.setAdapter(mainViewPaggerAdapter);
@@ -86,7 +88,7 @@ public class LocalActivity extends AppCompatActivity {
                 break;
             }
 
-            case "album":{
+            case "album_list":{
                 this.mViewPager.setCurrentItem(4);
                 break;
             }

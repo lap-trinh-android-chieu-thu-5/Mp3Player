@@ -124,7 +124,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     break;
                 case "play_artist":
                     Long artistId = intent.getExtras().getLong("artist_id");
-                    List<Song> songArtist = Song.find(Song.class, "id_artist = ?",  String.valueOf(artistId));
+                    List<Song> songArtist = Song.find(Song.class, "artist = ?",  String.valueOf(artistId));
                     lstSong = songArtist;
                     break;
             }

@@ -104,7 +104,7 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
             mTextViewNumberPlaylist.setText("0");
         }
         mTextViewNumberFavorite.setText(String.valueOf(Song.find(Song.class, "is_favorite = ?", "1").size()));
-        mTextViewNumberArtist.setText(String.valueOf(Artist.listAll(Album.class).size()));
+        mTextViewNumberArtist.setText(String.valueOf(Artist.listAll(Artist.class).size()));
         mTextViewNumberAlbum.setText(String.valueOf(Album.listAll(Album.class).size()));
     }
 
@@ -166,6 +166,9 @@ public class Fragment_Local extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.relative_album: {
+                Intent intentLocalActivity = new Intent(getActivity(), LocalActivity.class);
+                intentLocalActivity.putExtra("fragment_open", "album_list");
+                getActivity().startActivity(intentLocalActivity);
                 break;
             }
         }

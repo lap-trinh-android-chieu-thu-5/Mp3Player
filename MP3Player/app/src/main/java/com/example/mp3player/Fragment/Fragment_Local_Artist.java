@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Adapter.LocalArtistListAdapter;
 import com.example.mp3player.Adapter.LocalFavoriteListAdapter;
+import com.example.mp3player.Interface.ItemClickArtist;
+import com.example.mp3player.Interface.ItemClickArtistToFragment;
 import com.example.mp3player.Model.Local.Artist;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
@@ -24,7 +26,8 @@ import com.example.mp3player.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Fragment_Local_Artist extends Fragment {
+public class Fragment_Local_Artist extends Fragment implements ItemClickArtistToFragment {
+    ItemClickArtist mItemClickArtist;
     View view;
     LocalArtistListAdapter mLocalArtistListAdapter;
     RecyclerView mRecyclerView;
@@ -46,12 +49,22 @@ public class Fragment_Local_Artist extends Fragment {
 
     private void map(){
         this.mRecyclerView = view.findViewById(R.id.recyclerview_artist_list);
-
     }
     private  void init(){
         mLstArtist = Artist.listAll(Artist.class);
         mLocalArtistListAdapter = new LocalArtistListAdapter(getActivity(), mLstArtist);
+        mLocalArtistListAdapter.setOnClick(this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mLocalArtistListAdapter);
+    }
+
+    public void setOnClick(ItemClickArtist itemClickArtist){
+        this.mItemClickArtist = itemClickArtist;
+    }
+
+    @Override
+    public void onClick(String artistId) {
+        this.mItemClickArtist.onClick(artistId);
     }
 }
