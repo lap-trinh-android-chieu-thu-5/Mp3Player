@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Adapter.LocalSongListAdapter;
+import com.example.mp3player.Model.Local.Playlist_Song;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
@@ -137,7 +138,13 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
     }
     public void init(){
         try{
-            mLstSong = Song.find(Song.class, "playlist = ?",  String.valueOf(this.mPlaylistId));
+            List<Playlist_Song> songPlaylist = Playlist_Song.find(Playlist_Song.class, "playlist = ?",  String.valueOf(this.mPlaylistId));
+            mLstSong = new ArrayList<>();
+            for(Playlist_Song item: songPlaylist){
+                mLstSong.add(item.song);
+            }
+
+            //mLstSong = Song.find(Song.class, "playlist = ?",  String.valueOf(this.mPlaylistId));
             mLocalSongListAdapter = new LocalSongListAdapter(getActivity(), mLstSong, isEdit);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mRecyclerView.setAdapter(mLocalSongListAdapter);

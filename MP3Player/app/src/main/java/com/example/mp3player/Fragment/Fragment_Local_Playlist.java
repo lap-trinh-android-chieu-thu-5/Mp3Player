@@ -1,5 +1,6 @@
 package com.example.mp3player.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
+import com.example.mp3player.Activity.PopUpCreatePlaylist;
 import com.example.mp3player.Adapter.LocalArtistListAdapter;
 import com.example.mp3player.Adapter.LocalPlaylistListAdapter;
 import com.example.mp3player.Interface.ItemClickArtist;
@@ -23,6 +26,7 @@ import com.example.mp3player.R;
 import java.util.List;
 
 public class Fragment_Local_Playlist extends Fragment implements ItemClickPlaylistToFragment {
+    ImageButton mImageButtonCreatePlaylist;
     ItemClickPlaylist mItemClickPlaylist;
     View view;
     LocalPlaylistListAdapter mLocalPlaylistListAdapter;
@@ -45,6 +49,7 @@ public class Fragment_Local_Playlist extends Fragment implements ItemClickPlayli
 
     private void map(){
         this.mRecyclerView = view.findViewById(R.id.recyclerview_playlist_list);
+        this.mImageButtonCreatePlaylist = view.findViewById(R.id.image_button_add);
     }
     private  void init(){
         try{
@@ -58,6 +63,12 @@ public class Fragment_Local_Playlist extends Fragment implements ItemClickPlayli
             //mLstPlaylist = null;
         }
 
+        this.mImageButtonCreatePlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().startActivity(new Intent(getActivity(), PopUpCreatePlaylist.class));
+            }
+        });
     }
 
     public void setOnClick(ItemClickPlaylist itemClickPlaylist){

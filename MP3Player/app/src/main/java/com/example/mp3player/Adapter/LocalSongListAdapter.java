@@ -23,6 +23,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.example.mp3player.Activity.PlayMusicActivity;
+import com.example.mp3player.Activity.PopUpAddPlaylist;
+import com.example.mp3player.Activity.PopUpCreatePlaylist;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
@@ -193,7 +195,9 @@ public class LocalSongListAdapter extends RecyclerView.Adapter<LocalSongListAdap
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.popup_menu_add_playlist:
-
+                            Intent intent = new Intent(mContext, PopUpAddPlaylist.class);
+                            intent.putExtra("song_id", String.valueOf(songId));
+                            mContext.startActivity(intent);
                             break;
                     }
                     return false;

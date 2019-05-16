@@ -16,6 +16,7 @@ import com.example.mp3player.Interface.ItemClickPlaylist;
 import com.example.mp3player.Interface.ItemClickPlaylistToFragment;
 import com.example.mp3player.Model.Local.Album;
 import com.example.mp3player.Model.Local.Playlist;
+import com.example.mp3player.Model.Local.Playlist_Song;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
@@ -44,7 +45,7 @@ public class LocalPlaylistListAdapter extends RecyclerView.Adapter<LocalPlaylist
         Playlist playlist = mLstPlaylist.get(position);
         holder.idPlaylist = playlist.getId();
         holder.mTxtArtistName.setText(playlist.name);
-        List<Song> songPlaylist = Song.find(Song.class, "playlist = ?",  String.valueOf(playlist.getId()));
+        List<Playlist_Song> songPlaylist = Playlist_Song.find(Playlist_Song.class, "playlist = ?",  String.valueOf(playlist.getId()));
         holder.mTxtNumSong.setText(String.valueOf(songPlaylist.size()));
 
     }
@@ -78,8 +79,8 @@ public class LocalPlaylistListAdapter extends RecyclerView.Adapter<LocalPlaylist
                     Playlist playlist = mLstPlaylist.get(getPosition());
                     Long id = playlist.getId();
                     Intent intent = new Intent(mContext, PlayMusicActivity.class);
-                    intent.putExtra("type_play","play_artist");
-                    intent.putExtra("artist_id",id);
+                    intent.putExtra("type_play","play_playlist");
+                    intent.putExtra("playlist_id",id);
                     mContext.startActivity(intent);
 
                 }

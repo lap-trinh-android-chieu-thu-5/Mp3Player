@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@drawable/playlist_select_item_background"
+    android:layout_margin="2dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:id="@+id/textview_playlist_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên playlist"
+        android:textAlignment="center"/>
+</LinearLayout>

@@ -19,7 +19,12 @@
 
         </activity>
         <activity android:name=".Activity.LocalActivity" />
-
+        <activity android:name=".Activity.PopUpAddPlaylist"
+            android:theme="@style/AppTheme.CustomTheme"
+            />
+        <activity android:name=".Activity.PopUpCreatePlaylist"
+            android:theme="@style/AppTheme.CustomTheme"
+            />
         <meta-data
             android:name="DATABASE"
             android:value="mp3player.db" />

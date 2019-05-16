@@ -22,6 +22,8 @@ import com.example.mp3player.Fragment.Fragment_Playing_List;
 import com.example.mp3player.Fragment.Fragment_Song_Disc;
 import com.example.mp3player.Interface.ItemClickListenerToActivity;
 import com.example.mp3player.Interface.PlayBackInfoListenerInterface;
+import com.example.mp3player.Model.Local.Playlist;
+import com.example.mp3player.Model.Local.Playlist_Song;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.MusicPlayer.ServiceMusicPlayer;
 import com.example.mp3player.R;
@@ -126,6 +128,16 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     Long artistId = intent.getExtras().getLong("artist_id");
                     List<Song> songArtist = Song.find(Song.class, "artist = ?",  String.valueOf(artistId));
                     lstSong = songArtist;
+                    break;
+                case "play_playlist":
+                    Long playlistId = intent.getExtras().getLong("playlist_id");
+                   // Playlist playlist = Playlist.findById(Playlist.class, playlistId);
+                    List<Playlist_Song> playlist_songs = Playlist_Song.find(Playlist_Song.class, "playlist = ?", String.valueOf(playlistId));
+                    List<Song> songPlaylist = new ArrayList<>();
+                    for(Playlist_Song item:playlist_songs){
+                        songPlaylist.add(item.song);
+                    }
+                    lstSong = songPlaylist;
                     break;
             }
 
