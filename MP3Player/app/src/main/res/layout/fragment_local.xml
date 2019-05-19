@@ -133,7 +133,7 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/iconlocalplay"
+            android:background="@drawable/iconview"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
@@ -266,7 +266,7 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/iconlocalplay"
+            android:background="@drawable/iconview"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 
@@ -331,7 +331,7 @@
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/iconlocalplay"
+            android:background="@drawable/iconview"
             android:layout_width="40dp"
             android:layout_height="40dp" />
 

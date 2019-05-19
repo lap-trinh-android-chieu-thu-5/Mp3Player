@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:gravity="center_vertical"
+        android:background="#B200BCD4"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/imageview_display"
+            android:background="@drawable/icondisplaysongitem"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp"
+            >
+            <TextView
+                android:id="@+id/textview_song_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="Tên bài hát"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <ImageButton
+                android:id="@+id/button_previous"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/iconpreview"/>
+
+            <ImageButton
+                android:id="@+id/button_pause"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/iconplay"/>
+
+            <ImageButton
+                android:id="@+id/button_play"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/iconplay"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/button_next"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/iconnext"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

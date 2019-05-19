@@ -1,11 +1,16 @@
 package com.example.mp3player.Activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +56,8 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
     private boolean mIsPlaybackPaused = false;
     private int mSeekToTimePause = 0;
     private boolean mIsPlaying = false;
-
+    private int isNew = 0;
+    private boolean isContinue = false;
 
     //fragment
     Fragment_Song_Disc fragmentSongDisc;
@@ -62,8 +69,6 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
 
     @Override
     protected void onDestroy() {
-        //stop service
-        stopService(mPlayIntent);
 
         //stop thread update time
         if(mHandlerUpdateTime != null) {
@@ -74,6 +79,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
 
     @Override
     protected void onStart() {
+
         super.onStart();
         //start and manage service player
         controlService();
@@ -85,12 +91,14 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_music);
 
-
         map();
         init();
+        if(MainActivity.serviceMusicPlayer != null){
+            List<Song> lstSong = MainActivity.serviceMusicPlayer.getListSong();
+            int a = 0;
+        }
         //eventClick();
 
-        lstSong.clear();
         //Nhan intent
         Intent intent = getIntent();
         if(intent != null){
@@ -107,6 +115,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                         Long id = intent.getExtras().getLong("song_id");
                         List<Song> songCheckList = Song.find(Song.class, "id_song = ?", Long.toString(id));
                         Song song = songCheckList.get(0);
+                        lstSong.clear();
                         lstSong.add(song);
                     }
                     break;
@@ -115,6 +124,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     lstSong = songFavorite;
                     break;
                 case "play_choose_song":
+                    lstSong.clear();
                     List<Song> songChoose = new ArrayList<>();
                     ArrayList<String> arrayListChooeSong = intent.getStringArrayListExtra("list_choose_song");
                     for(int i = 0; i < arrayListChooeSong.size();i ++){
@@ -125,13 +135,15 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     lstSong = songChoose;
                     break;
                 case "play_artist":
+                    lstSong.clear();
                     Long artistId = intent.getExtras().getLong("artist_id");
                     List<Song> songArtist = Song.find(Song.class, "artist = ?",  String.valueOf(artistId));
                     lstSong = songArtist;
                     break;
                 case "play_playlist":
+                    lstSong.clear();
                     Long playlistId = intent.getExtras().getLong("playlist_id");
-                   // Playlist playlist = Playlist.findById(Playlist.class, playlistId);
+                    // Playlist playlist = Playlist.findById(Playlist.class, playlistId);
                     List<Playlist_Song> playlist_songs = Playlist_Song.find(Playlist_Song.class, "playlist = ?", String.valueOf(playlistId));
                     List<Song> songPlaylist = new ArrayList<>();
                     for(Playlist_Song item:playlist_songs){
@@ -139,16 +151,57 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     }
                     lstSong = songPlaylist;
                     break;
+                case "continue":
+                    isContinue = true;
+                    break;
             }
 
         }
     }
 
     private void controlService() {
-        if (mPlayIntent == null) {
-            mPlayIntent = new Intent(this, ServiceMusicPlayer.class);
-            bindService(mPlayIntent, musicConnection, BIND_AUTO_CREATE);
-            startService(mPlayIntent);
+        if (mPlayIntent == null && mServiceMusicPlayer == null) {
+            if(MainActivity.serviceMusicPlayer != null){
+                isNew = 1;
+                mServiceMusicPlayer = MainActivity.serviceMusicPlayer;
+                if( isContinue){
+                    lstSong = mServiceMusicPlayer.getListSong();
+                    mIsMusicBound = true;
+                    mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+
+                    if(lstSong.size() > 0){
+                        updateTime();
+                        mIsPlaying = true;
+                        setTimeSong();
+                        mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                        mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                    }
+                }else{
+                    mServiceMusicPlayer.setList(lstSong);
+                    mIsMusicBound = true;
+                    mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+
+                    if(lstSong.size() > 0){
+                        updateTime();
+                        mIsPlaying = true;
+                        playSongList();
+                        //set title
+                        mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                        mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                    }
+                }
+                customSimpleNotification(this);
+            }else{
+                mPlayIntent = new Intent(this, ServiceMusicPlayer.class);
+                bindService(mPlayIntent, musicConnection, BIND_AUTO_CREATE);
+            }
+        }
+
+        try{
+            MainActivity.serviceMusicPlayer.context = this;
+
+        }catch (Exception e){
+            int a = 0;
         }
     }
 
@@ -300,8 +353,8 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
             mServiceMusicPlayer.setList(lstSong);
             mIsMusicBound = true;
             mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
-
-
+            MainActivity.serviceMusicPlayer = mServiceMusicPlayer;
+            StaticClass.serviceMusicPlayer = mServiceMusicPlayer;
             if(lstSong.size() > 0){
                 updateTime();
                 mIsPlaying = true;
@@ -311,6 +364,8 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                 mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
                 fragmentSongDisc.startRotate();
             }
+            customSimpleNotification(PlayMusicActivity.this);
+            MainActivity.serviceMusicPlayer.context = PlayMusicActivity.this;
 
         }
 
@@ -349,6 +404,10 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         }
         @Override
         public void  onSongChanged(int index) {
+            if(isNew == 1){
+                isNew ++;
+                fragmentSongDisc.startRotate();
+            }
             Song song = lstSong.get(index);
             mToolbarMusicPlay.setTitle(song.name);
             setTimeSong();
@@ -380,4 +439,48 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
         fragmentSongDisc.startRotate();
     }
+
+    public void customSimpleNotification(Context context){
+        RemoteViews simpleView = new RemoteViews(context.getPackageName(), R.layout.custome_notification);
+
+        Notification notification = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.iconlocalmusic)
+                .setContentTitle("Custom Big View").build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.contentView = simpleView;
+        notification.contentView.setTextViewText(R.id.textview_song_name, mServiceMusicPlayer.mSongTitle);
+
+        setListeners(simpleView, context);
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        nm.notify(22, notification);
+
+        MainActivity.notification = notification;
+    }
+
+    private static void setListeners(RemoteViews view, Context context) {//
+        Intent previous = new Intent(NOTIFY_PREVIOUS);
+        Intent delete = new Intent(NOTIFY_DELETE);
+        Intent pause = new Intent(NOTIFY_PAUSE);
+        Intent next = new Intent(NOTIFY_NEXT);
+        Intent play = new Intent(NOTIFY_PLAY);
+
+        PendingIntent pPrevious = PendingIntent.getBroadcast(context, 0, previous, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.button_previous, pPrevious);//button 1
+
+
+        PendingIntent pPause = PendingIntent.getBroadcast(context, 0, pause, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.button_pause, pPause);
+
+        PendingIntent pNext = PendingIntent.getBroadcast(context, 0, next, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.button_next, pNext);
+
+        PendingIntent pPlay = PendingIntent.getBroadcast(context, 0, play, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.button_play, pPlay);
+    }
+
+    public static final String NOTIFY_PREVIOUS = "com.tutorialsface.notificationdemo.previous";
+    public static final String NOTIFY_DELETE = "com.tutorialsface.notificationdemo.delete";
+    public static final String NOTIFY_PAUSE = "com.tutorialsface.notificationdemo.pause";
+    public static final String NOTIFY_PLAY = "com.tutorialsface.notificationdemo.play";
+    public static final String NOTIFY_NEXT = "com.tutorialsface.notificationdemo.next";
 }

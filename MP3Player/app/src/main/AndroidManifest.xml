@@ -48,6 +48,17 @@
         </activity>
 
         <service android:name=".MusicPlayer.ServiceMusicPlayer"/>
+
+
+        <receiver android:name=".Activity.NotificationBroadcast" >
+            <intent-filter>
+                <action android:name="com.tutorialsface.notificationdemo.previous"/>
+                <action android:name="com.tutorialsface.notificationdemo.delete" />
+                <action android:name="com.tutorialsface.notificationdemo.pause" />
+                <action android:name="com.tutorialsface.notificationdemo.next" />
+                <action android:name="com.tutorialsface.notificationdemo.play" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

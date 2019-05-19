@@ -1,7 +1,9 @@
 package com.example.mp3player.Activity;
 
 import android.Manifest;
+import android.app.Notification;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -10,28 +12,41 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.mp3player.Adapter.LocalSongListAdapter;
 import com.example.mp3player.Adapter.MainViewPaggerAdapter;
+import com.example.mp3player.Fragment.Fragment_Controller_Service;
 import com.example.mp3player.Fragment.Fragment_Home;
 import com.example.mp3player.Fragment.Fragment_Local;
 import com.example.mp3player.Fragment.Fragment_Search;
 import com.example.mp3player.Model.Local.Artist;
 import com.example.mp3player.Model.Local.ScanLocalMusic;
 import com.example.mp3player.Model.Local.Song;
+import com.example.mp3player.MusicPlayer.ServiceMusicPlayer;
 import com.example.mp3player.R;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private FrameLayout mFrameLayout;
+    private Fragment_Controller_Service mFragmentControllerService;
+
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+
+    public static ServiceMusicPlayer serviceMusicPlayer;
+    public static Notification notification;
 
     Fragment_Local fragment_local = new Fragment_Local();
     Fragment_Search fragment_search = new Fragment_Search();
@@ -42,11 +57,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         map();
+        //initPermission();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         init();
-        initPermission();
     }
 
     private  void init(){
+        if(MainActivity.serviceMusicPlayer != null){
+            mTabLayout.setVisibility(View.GONE);
+
+            mFrameLayout.setVisibility(View.VISIBLE);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            mFragmentControllerService = new Fragment_Controller_Service();
+            fragmentTransaction.add(R.id.frame_controller_service_main, mFragmentControllerService);
+            fragmentTransaction.commit();
+
+            MainActivity.serviceMusicPlayer.context = this;
+        }else{
+            mFrameLayout.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.VISIBLE);
+
+        }
+
+
         MainViewPaggerAdapter mainViewPaggerAdapter = new MainViewPaggerAdapter(getSupportFragmentManager());
 
         mainViewPaggerAdapter.addFragment(fragment_local, "");
@@ -93,6 +131,18 @@ public class MainActivity extends AppCompatActivity {
     private void map(){
         mTabLayout = findViewById(R.id.myTabLayout);
         mViewPager = findViewById(R.id.myViewPager);
+
+        mFrameLayout = findViewById(R.id.frame_controller_service);
+
+        mFrameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentLocalActivity = new Intent(MainActivity.this, PlayMusicActivity.class);
+                intentLocalActivity.putExtra("type_play", "continue");
+
+                MainActivity.this.startActivity(intentLocalActivity);
+            }
+        });
     }
 
     private void scanMusicExternal(){
@@ -136,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             }else{
                 //quet nhac neu duoc su cho phep
-                //scanMusicExternal();
+                scanMusicExternal();
             }
         }
     }
@@ -149,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Permision Write File is Granted", Toast.LENGTH_SHORT).show();
 
                 //quet nhac neu duoc su cho phep
-                //scanMusicExternal();
+                scanMusicExternal();
             } else {
                 Toast.makeText(MainActivity.this, "Permision Write File is Denied", Toast.LENGTH_SHORT).show();
             }

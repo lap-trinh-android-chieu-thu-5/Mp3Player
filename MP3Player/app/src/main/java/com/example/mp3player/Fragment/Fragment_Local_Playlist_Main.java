@@ -59,6 +59,10 @@ public class Fragment_Local_Playlist_Main  extends Fragment implements ItemClick
             public void onPageSelected(int position) {
                 if(position == 1){
                     mFragment_local_playlist_detail.init();
+                }else{
+                    if(position == 0){
+                        mFragment_local_playlist.init();
+                    }
                 }
             }
 
@@ -78,5 +82,8 @@ public class Fragment_Local_Playlist_Main  extends Fragment implements ItemClick
         this.mFragment_local_playlist_detail.setPlaylistId(playlistId);
         this.mFragment_local_playlist_detail.init();
         mViewPager.setCurrentItem(1);
+    }
+    public void onLoadData(){
+        this.mFragment_local_playlist.onLoadData();
     }
 }

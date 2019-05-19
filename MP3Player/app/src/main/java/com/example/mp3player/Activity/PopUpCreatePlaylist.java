@@ -71,6 +71,8 @@ public class PopUpCreatePlaylist extends Activity implements View.OnClickListene
                     }
                     finish();
                 }
+
+                setResult(1);
                 break;
             case R.id.image_button_cancel:
                 finish();

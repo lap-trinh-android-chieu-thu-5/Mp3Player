@@ -1,9 +1,12 @@
 package com.example.mp3player.MusicPlayer;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -13,7 +16,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.mp3player.Activity.PlayMusicActivity;
@@ -22,6 +27,7 @@ import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,9 +42,12 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
     public boolean isShuffle = false;
     public boolean isRepeat = false;
 
+    public boolean isPlaying = false;
     private Random mRandom = new Random();
 
     private PlayBackInfoListenerInterface mPlaybackInfoListener;
+
+    public Context context;
 
     @Override
     public void onCreate() {
@@ -61,6 +70,9 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
         mSongs = theSongs;
     }
 
+    public List<Song> getListSong(){
+        return this.mSongs;
+    }
 
     public class MusicBinder extends Binder {
         public  ServiceMusicPlayer getService() {
@@ -97,31 +109,18 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
         mPlaybackInfoListener.onSongChanged(mSongPos);
 
         mp.start();
-        Intent notificationIntent = new Intent(this, PlayMusicActivity.class);
-        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        Notification.Builder nBuilder = new Notification.Builder(this);
-        nBuilder.setContentIntent(pendingIntent)
-                .setTicker(mSongTitle)
-                .setSmallIcon(R.drawable.iconlocalplay)
-                .setOngoing(true)
-                .setContentTitle("Playing")
-                .setContentText(mSongTitle);
-        Notification notif = nBuilder.getNotification();
-        startForeground(NOTIFY_ID, notif);
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        mPlayer.stop();
-        mPlayer.release();
+        //mPlayer.stop();
+        //mPlayer.release();
         return false;
     }
 
     public void playSong() {
+
+        isPlaying = true;
 
         mPlayer.reset();
         Song playSong = mSongs.get(mSongPos);
@@ -159,6 +158,7 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
 
     public void pausePlayer() {
         mPlayer.pause();
+        isPlaying = false;
     }
 
     public int getCurrentDur(){
@@ -167,6 +167,7 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
 
     public  void start(){
         mPlayer.start();
+        isPlaying = true;
     }
     public void seek(int pos) {
         mPlayer.seekTo(pos);

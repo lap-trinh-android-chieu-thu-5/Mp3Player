@@ -195,8 +195,10 @@ public class LocalSongListAdapter extends RecyclerView.Adapter<LocalSongListAdap
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.popup_menu_add_playlist:
+                            Song song = lstSong.get(getPosition());
+                            Long id = song.idSong;
                             Intent intent = new Intent(mContext, PopUpAddPlaylist.class);
-                            intent.putExtra("song_id", String.valueOf(songId));
+                            intent.putExtra("song_id", String.valueOf(id));
                             mContext.startActivity(intent);
                             break;
                     }

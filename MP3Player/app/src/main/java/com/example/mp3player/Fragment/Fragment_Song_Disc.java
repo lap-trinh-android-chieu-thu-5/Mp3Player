@@ -2,6 +2,7 @@ package com.example.mp3player.Fragment;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,8 +26,13 @@ public class Fragment_Song_Disc extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_song_disc, container, false);
-        map();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        map();
     }
 
     public void startRotate(){
@@ -42,7 +48,7 @@ public class Fragment_Song_Disc extends Fragment {
         mOjectAnimator.setCurrentPlayTime(mCurrentPlayTime);
     }
 
-    private  void map(){
+    public   void map(){
         mCircleImageView = view.findViewById(R.id.image_view_circle);
 
         mOjectAnimator = ObjectAnimator.ofFloat(mCircleImageView, "rotation", 0f, 360f);
@@ -50,5 +56,10 @@ public class Fragment_Song_Disc extends Fragment {
         mOjectAnimator.setRepeatCount(10000);
 
         mOjectAnimator.setInterpolator(new LinearInterpolator());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

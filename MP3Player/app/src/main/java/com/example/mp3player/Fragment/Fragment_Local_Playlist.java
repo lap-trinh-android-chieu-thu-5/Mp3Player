@@ -51,7 +51,7 @@ public class Fragment_Local_Playlist extends Fragment implements ItemClickPlayli
         this.mRecyclerView = view.findViewById(R.id.recyclerview_playlist_list);
         this.mImageButtonCreatePlaylist = view.findViewById(R.id.image_button_add);
     }
-    private  void init(){
+    public   void init(){
         try{
             mLstPlaylist = Playlist.listAll(Playlist.class);
             mLocalPlaylistListAdapter = new LocalPlaylistListAdapter(getActivity(), mLstPlaylist);
@@ -66,7 +66,7 @@ public class Fragment_Local_Playlist extends Fragment implements ItemClickPlayli
         this.mImageButtonCreatePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().startActivity(new Intent(getActivity(), PopUpCreatePlaylist.class));
+                getActivity().startActivityForResult(new Intent(getActivity(), PopUpCreatePlaylist.class), 1);
             }
         });
     }
@@ -79,5 +79,18 @@ public class Fragment_Local_Playlist extends Fragment implements ItemClickPlayli
     @Override
     public void onClick(String playlistId) {
         this.mItemClickPlaylist.onClick(playlistId);
+    }
+    public void onLoadData(){
+        try{
+            mLstPlaylist = Playlist.listAll(Playlist.class);
+            mLocalPlaylistListAdapter = new LocalPlaylistListAdapter(getActivity(), mLstPlaylist);
+            mLocalPlaylistListAdapter.setOnClick(this);
+
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mRecyclerView.setAdapter(mLocalPlaylistListAdapter);
+        }catch (Exception ex){
+            //mLstPlaylist = null;
+        }
+        mLocalPlaylistListAdapter.notifyDataSetChanged();
     }
 }

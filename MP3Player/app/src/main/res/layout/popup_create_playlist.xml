@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="#12CDDC39"
+    android:background="#9CC5DD"
     android:orientation="vertical"
     android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tạo playlist"
+        android:textSize="16dp"
+        android:textColor="#000"
+        />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/textinput_playlist_name"
@@ -20,16 +28,17 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         >
+
         <ImageButton
             android:layout_marginRight="20dp"
             android:id="@+id/image_button_cancel"
-            android:background="#FFC107"
+            android:background="@drawable/iconbuttoncancel"
             android:layout_width="30dp"
             android:layout_height="30dp" />
         <ImageButton
             android:layout_marginLeft="20dp"
             android:id="@+id/image_button_save"
-            android:background="#00BCD4"
+            android:background="@drawable/iconbuttonsave"
             android:layout_width="30dp"
             android:layout_height="30dp" />
     </LinearLayout>
