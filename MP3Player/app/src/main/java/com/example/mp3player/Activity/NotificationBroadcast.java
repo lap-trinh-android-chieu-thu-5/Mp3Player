@@ -24,27 +24,28 @@ public class NotificationBroadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(NOTIFY_PLAY)) {
-            MainActivity.serviceMusicPlayer.playSong();
-        } else if (intent.getAction().equals(NOTIFY_PAUSE)) {
+        if(MainActivity.serviceMusicPlayer != null){
+            if (intent.getAction().equals(NOTIFY_PLAY)) {
+                MainActivity.serviceMusicPlayer.playSong();
+            } else if (intent.getAction().equals(NOTIFY_PAUSE)) {
 
-            if(MainActivity.serviceMusicPlayer.isPlaying == false){
-                MainActivity.serviceMusicPlayer.start();
-            }else {
-                MainActivity.serviceMusicPlayer.pausePlayer();
+                if(MainActivity.serviceMusicPlayer.isPlaying == false){
+                    MainActivity.serviceMusicPlayer.start();
+                }else {
+                    MainActivity.serviceMusicPlayer.pausePlayer();
+                }
+
+            } else if (intent.getAction().equals(NOTIFY_NEXT)) {
+                MainActivity.serviceMusicPlayer.playNext();
+
+
+            } else if (intent.getAction().equals(NOTIFY_DELETE)) {
+
+            }else if (intent.getAction().equals(NOTIFY_PREVIOUS)) {
+                MainActivity.serviceMusicPlayer.playPrev();
             }
-
-
-        } else if (intent.getAction().equals(NOTIFY_NEXT)) {
-            MainActivity.serviceMusicPlayer.playNext();
-
-
-        } else if (intent.getAction().equals(NOTIFY_DELETE)) {
-
-        }else if (intent.getAction().equals(NOTIFY_PREVIOUS)) {
-            MainActivity.serviceMusicPlayer.playPrev();
+            customSimpleNotification(MainActivity.serviceMusicPlayer.context);
         }
-        customSimpleNotification(MainActivity.serviceMusicPlayer.context);
     }
 
     public void customSimpleNotification(Context context){

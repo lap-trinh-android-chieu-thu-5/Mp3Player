@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Activity.PopUpAddPlaylist;
+import com.example.mp3player.Interface.OnFinishPopUp;
 import com.example.mp3player.Model.Local.Playlist;
 import com.example.mp3player.Model.Local.Playlist_Song;
 import com.example.mp3player.Model.Local.Song;
@@ -27,6 +28,7 @@ public class SelectPlaylistAdapter extends RecyclerView.Adapter<SelectPlaylistAd
     private Context mContext;
     private List<Playlist> mListPlaylist;
     private String mSongId;
+    private OnFinishPopUp onFinishPopUp;
 
     public SelectPlaylistAdapter(Context context, List<Playlist> lstPlaylist,  String songId){
         this.mContext = context;
@@ -71,6 +73,10 @@ public class SelectPlaylistAdapter extends RecyclerView.Adapter<SelectPlaylistAd
                 Playlist_Song playlist_song = new Playlist_Song( this.playlist, songs.get(0));
                 playlist_song.save();
             //}
+            onFinishPopUp.OnFinish();
         }
+    }
+    public void setOnFinish(OnFinishPopUp onFinishPopUp){
+        this.onFinishPopUp = onFinishPopUp;
     }
 }

@@ -8,12 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 
 import com.example.mp3player.Adapter.SelectPlaylistAdapter;
+import com.example.mp3player.Interface.OnFinishPopUp;
 import com.example.mp3player.Model.Local.Playlist;
 import com.example.mp3player.R;
 
 import java.util.List;
 
-public class PopUpAddPlaylist extends Activity {
+public class PopUpAddPlaylist extends Activity implements OnFinishPopUp {
     private RecyclerView mRecyclerView;
     private String mSongId;
     private List<Playlist> mLstPlaylist;
@@ -46,7 +47,13 @@ public class PopUpAddPlaylist extends Activity {
     private  void init(){
         mLstPlaylist = Playlist.listAll(Playlist.class);
         mSelectPlaylistAdapter = new SelectPlaylistAdapter(this, mLstPlaylist, mSongId);
+        mSelectPlaylistAdapter.setOnFinish(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mSelectPlaylistAdapter);
+    }
+
+    @Override
+    public void OnFinish() {
+        finish();
     }
 }

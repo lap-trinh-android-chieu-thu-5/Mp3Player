@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.mp3player.Interface.OnFinishPopUp;
 import com.example.mp3player.Model.Local.Playlist;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
 
 import java.util.List;
 
-public class PopUpCreatePlaylist extends Activity implements View.OnClickListener {
+public class PopUpCreatePlaylist extends Activity implements View.OnClickListener, OnFinishPopUp {
     private TextInputEditText mTextInputEditText;
     private ImageButton mImageButtonSave, mImageButtonCancel;
 
@@ -78,5 +79,10 @@ public class PopUpCreatePlaylist extends Activity implements View.OnClickListene
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void OnFinish() {
+        finish();
     }
 }

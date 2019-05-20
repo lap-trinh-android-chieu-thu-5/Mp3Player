@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Adapter.LocalSongListAdapter;
+import com.example.mp3player.Model.Local.Playlist;
 import com.example.mp3player.Model.Local.Playlist_Song;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.R;
@@ -31,7 +32,7 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
     LocalSongListAdapter mLocalSongListAdapter;
     RecyclerView mRecyclerView;
     ImageButton mImgButtonEdit;
-    ImageButton mImgButtonPlay;
+    ImageButton mImgButtonPlay, mImgButtonDelete;
     List<Song> mLstSong;
 
     @Nullable
@@ -54,14 +55,17 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
         this.mImgButtonEdit = view.findViewById(R.id.image_button_option);
         this.mImgButtonPlay = view.findViewById(R.id.image_button_play);
         this.mCheckBoxAll = view.findViewById(R.id.checkbox_all);
-
+        this.mImgButtonDelete = view.findViewById(R.id.image_button_delete);
 
         if(isEdit){
             mImgButtonPlay.setVisibility(View.VISIBLE);
             mCheckBoxAll.setVisibility(View.VISIBLE);
+            this.mImgButtonDelete.setVisibility(View.VISIBLE);
         }else {
             mImgButtonPlay.setVisibility(View.GONE);
             mCheckBoxAll.setVisibility(View.GONE);
+            this.mImgButtonDelete.setVisibility(View.GONE);
+
         }
 
 
@@ -102,6 +106,7 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
                     mLocalSongListAdapter.isEdit = false;
                     isEdit = false;
                     mImgButtonPlay.setVisibility(View.GONE);
+                    mImgButtonDelete.setVisibility(View.GONE);
                     mCheckBoxAll.setVisibility(View.GONE);
 
                     mLocalSongListAdapter.notifyDataSetChanged();
@@ -113,6 +118,7 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
                     isEdit = true;
                     mImgButtonPlay.setVisibility(View.VISIBLE);
                     mCheckBoxAll.setVisibility(View.VISIBLE);
+                    mImgButtonDelete.setVisibility(View.VISIBLE);
 
                     mLocalSongListAdapter.notifyDataSetChanged();
 
@@ -131,6 +137,29 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
                 }else {
                     mLocalSongListAdapter.isCheckAll = false;
                     mLocalSongListAdapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        this.mImgButtonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //mLocalSongListAdapter.onClickPlaySongChoose();
+                for(int i = 0; i < mRecyclerView.getChildCount(); i++){
+                    View viewHolder = mRecyclerView.getChildAt(i);
+                    CheckBox checkBox = viewHolder.findViewById(R.id.checkbox_edit);
+                    if(checkBox.isChecked()){
+                        Playlist playlist = Playlist.findById(Playlist.class, Long.valueOf(mPlaylistId));
+                        Song song = mLstSong.get(i);
+                        try{
+                            List<Playlist_Song> playlist_songs = Playlist_Song.find(Playlist_Song.class, "song = ?,  playlist = ?", String.valueOf(song.getId()), String.valueOf(playlist.getId()));
+                            playlist_songs.get(0).delete();
+                        }catch (Exception e){
+                            int a = 0;
+                        }
+
+                    }
                 }
 
             }
