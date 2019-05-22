@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -13,18 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.ListSongOnlineActivity"></activity>
         <activity
             android:name=".Activity.PlayMusicActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity android:name=".Activity.LocalActivity" />
-        <activity android:name=".Activity.PopUpAddPlaylist"
-            android:theme="@style/AppTheme.CustomTheme"
-            />
-        <activity android:name=".Activity.PopUpCreatePlaylist"
-            android:theme="@style/AppTheme.CustomTheme"
-            />
+        <activity
+            android:name=".Activity.PopUpAddPlaylist"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity
+            android:name=".Activity.PopUpCreatePlaylist"
+            android:theme="@style/AppTheme.CustomTheme" />
+
         <meta-data
             android:name="DATABASE"
             android:value="mp3player.db" />
@@ -38,8 +39,7 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.example.mp3player" />
 
-        <activity android:name=".Activity.MainActivity"
-            >
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,12 +47,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".MusicPlayer.ServiceMusicPlayer"/>
+        <service android:name=".MusicPlayer.ServiceMusicPlayer" />
 
-
-        <receiver android:name=".Activity.NotificationBroadcast" >
+        <receiver android:name=".Activity.NotificationBroadcast">
             <intent-filter>
-                <action android:name="com.tutorialsface.notificationdemo.previous"/>
+                <action android:name="com.tutorialsface.notificationdemo.previous" />
                 <action android:name="com.tutorialsface.notificationdemo.delete" />
                 <action android:name="com.tutorialsface.notificationdemo.pause" />
                 <action android:name="com.tutorialsface.notificationdemo.next" />

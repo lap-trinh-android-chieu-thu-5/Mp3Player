@@ -152,13 +152,9 @@ public class Fragment_Local_Playlist_Detail extends Fragment {
                     if(checkBox.isChecked()){
                         Playlist playlist = Playlist.findById(Playlist.class, Long.valueOf(mPlaylistId));
                         Song song = mLstSong.get(i);
-                        try{
-                            List<Playlist_Song> playlist_songs = Playlist_Song.find(Playlist_Song.class, "song = ?,  playlist = ?", String.valueOf(song.getId()), String.valueOf(playlist.getId()));
-                            playlist_songs.get(0).delete();
-                        }catch (Exception e){
-                            int a = 0;
-                        }
-
+                        List<Playlist_Song> playlist_songs = Playlist_Song.find(Playlist_Song.class, "song = ? and playlist = ?", String.valueOf(song.getId()), String.valueOf(playlist.getId()));
+                        playlist_songs.get(0).delete();
+                        init();
                     }
                 }
 

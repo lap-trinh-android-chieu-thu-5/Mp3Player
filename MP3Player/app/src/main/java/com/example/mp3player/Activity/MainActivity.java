@@ -30,13 +30,22 @@ import com.example.mp3player.Fragment.Fragment_Controller_Service;
 import com.example.mp3player.Fragment.Fragment_Home;
 import com.example.mp3player.Fragment.Fragment_Local;
 import com.example.mp3player.Fragment.Fragment_Search;
+import com.example.mp3player.Model.Host.Playlist;
 import com.example.mp3player.Model.Local.Artist;
 import com.example.mp3player.Model.Local.ScanLocalMusic;
 import com.example.mp3player.Model.Local.Song;
 import com.example.mp3player.MusicPlayer.ServiceMusicPlayer;
 import com.example.mp3player.R;
+import com.example.mp3player.Service.APIService;
+import com.example.mp3player.Service.DataService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private FrameLayout mFrameLayout;
@@ -50,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     Fragment_Local fragment_local = new Fragment_Local();
     Fragment_Search fragment_search = new Fragment_Search();
+    Fragment_Home fragment_home = new Fragment_Home();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,25 @@ public class MainActivity extends AppCompatActivity {
 
         map();
         //initPermission();
+
+        //testAPI();
+    }
+
+    private void testAPI(){
+        DataService dataService = APIService.getService();
+        Call<List<Playlist>> callback = dataService.getDataPlaylist();
+        callback.enqueue(new Callback<List<Playlist>>() {
+            @Override
+            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
+                ArrayList<Playlist> playlists = (ArrayList<Playlist>)response.body();
+                int a = 0;
+            }
+
+            @Override
+            public void onFailure(Call<List<Playlist>> call, Throwable t) {
+                int b = 0;
+            }
+        });
     }
 
     @Override
@@ -88,16 +117,15 @@ public class MainActivity extends AppCompatActivity {
         MainViewPaggerAdapter mainViewPaggerAdapter = new MainViewPaggerAdapter(getSupportFragmentManager());
 
         mainViewPaggerAdapter.addFragment(fragment_local, "");
-        //mainViewPaggerAdapter.addFragment(new Fragment_Home(),"Trang chủ");
+        mainViewPaggerAdapter.addFragment(fragment_home,"");
         mainViewPaggerAdapter.addFragment(fragment_search, "");
 
         mViewPager.setAdapter(mainViewPaggerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.getTabAt(0).setIcon(R.drawable.iconhome);
 
-        //mTabLayout.getTabAt(0).setIcon(R.drawable.iconlocal);
-        //mTabLayout.getTabAt(1).setIcon(R.drawable.iconhome);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.iconsearch);
+        mTabLayout.getTabAt(0).setIcon(R.drawable.iconlocal);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.iconhome);
+        mTabLayout.getTabAt(2).setIcon(R.drawable.iconsearch);
 
         mTabLayout.setBackgroundColor(Color.parseColor("#280D4D"));
 
@@ -116,8 +144,10 @@ public class MainActivity extends AppCompatActivity {
                         getSupportActionBar().show();
                         break;
                     case 1:
-                        getSupportActionBar().hide();
+                        getSupportActionBar().show();
                         break;
+                    case 2:
+                        getSupportActionBar().hide();
                 }
             }
 
@@ -187,6 +217,19 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 //quet nhac neu duoc su cho phep
                 scanMusicExternal();
+            }
+            if (checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+                //Permisson don't granted
+                if (shouldShowRequestPermissionRationale(Manifest.permission.INTERNET)) {
+                    Toast.makeText(MainActivity.this, "Permission isn't granted ", Toast.LENGTH_SHORT).show();
+                }
+                // Permisson don't granted and dont show dialog again.
+                else {
+                    Toast.makeText(MainActivity.this, "Permisson don't granted and dont show dialog again ", Toast.LENGTH_SHORT).show();
+                }
+                //Register permission
+                requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
+
             }
         }
     }
