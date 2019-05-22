@@ -40,6 +40,7 @@ import java.util.List;
 
 public class PlayMusicActivity extends AppCompatActivity implements ItemClickListenerToActivity {
     public static List<Song> lstSong = new ArrayList<>();
+    public static List<com.example.mp3player.Model.Host.Song> lstSongOnline = new ArrayList<>();
     public static PlayMusicViewPaggerAdapter playMusicViewPaggerAdapter;
     ViewPager mViewPaggerMusicPlayer;
     Toolbar mToolbarMusicPlay;
@@ -58,6 +59,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
     private boolean mIsPlaying = false;
     private int isNew = 0;
     private boolean isContinue = false;
+    private boolean isOnline = false;
 
     //fragment
     Fragment_Song_Disc fragmentSongDisc;
@@ -94,8 +96,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         map();
         init();
         if(MainActivity.serviceMusicPlayer != null){
-            List<Song> lstSong = MainActivity.serviceMusicPlayer.getListSong();
-            int a = 0;
+
         }
         //eventClick();
 
@@ -106,11 +107,12 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
 
             switch (type_play){
                 case "play_all_song":
+                    isOnline = false;
                     List<Song> songAll = Song.listAll(Song.class);
                     lstSong = songAll;
-
                     break;
                 case "play_single_song":
+                    isOnline = false;
                     if(intent.hasExtra("song_id")){
                         Long id = intent.getExtras().getLong("song_id");
                         List<Song> songCheckList = Song.find(Song.class, "id_song = ?", Long.toString(id));
@@ -120,10 +122,12 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     }
                     break;
                 case "play_favorite":
+                    isOnline = false;
                     List<Song> songFavorite = Song.find(Song.class, "is_favorite = ?",  "1");
                     lstSong = songFavorite;
                     break;
                 case "play_choose_song":
+                    isOnline = false;
                     lstSong.clear();
                     List<Song> songChoose = new ArrayList<>();
                     ArrayList<String> arrayListChooeSong = intent.getStringArrayListExtra("list_choose_song");
@@ -135,12 +139,14 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                     lstSong = songChoose;
                     break;
                 case "play_artist":
+                    isOnline = false;
                     lstSong.clear();
                     Long artistId = intent.getExtras().getLong("artist_id");
                     List<Song> songArtist = Song.find(Song.class, "artist = ?",  String.valueOf(artistId));
                     lstSong = songArtist;
                     break;
                 case "play_playlist":
+                    isOnline = false;
                     lstSong.clear();
                     Long playlistId = intent.getExtras().getLong("playlist_id");
                     // Playlist playlist = Playlist.findById(Playlist.class, playlistId);
@@ -154,6 +160,19 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                 case "continue":
                     isContinue = true;
                     break;
+                case "play_online_playlist_all":
+                    isOnline = true;
+                    ArrayList<com.example.mp3player.Model.Host.Song> songList = intent.getParcelableArrayListExtra("list_song");
+                    for(com.example.mp3player.Model.Host.Song item:songList){
+                        lstSongOnline.add(item);
+                    }
+                    break;
+                case "play_single_song_online":
+                    isOnline = true;
+                    com.example.mp3player.Model.Host.Song song = intent.getParcelableExtra("song");
+                    lstSongOnline.clear();
+                    lstSongOnline.add(song);
+                    break;
             }
 
         }
@@ -164,31 +183,63 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
             if(MainActivity.serviceMusicPlayer != null){
                 isNew = 1;
                 mServiceMusicPlayer = MainActivity.serviceMusicPlayer;
+                mServiceMusicPlayer.isOnline = isOnline;
                 if( isContinue){
-                    lstSong = mServiceMusicPlayer.getListSong();
-                    mIsMusicBound = true;
-                    mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+                    if(isOnline){
+                        lstSongOnline = mServiceMusicPlayer.getSongsOnline();
+                        mIsMusicBound = true;
+                        mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
 
-                    if(lstSong.size() > 0){
-                        updateTime();
-                        mIsPlaying = true;
-                        setTimeSong();
-                        mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
-                        mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        if(lstSongOnline.size() > 0){
+                            updateTime();
+                            mIsPlaying = true;
+                            setTimeSong();
+                            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        }
+                    }else {
+                        lstSong = mServiceMusicPlayer.getListSong();
+                        mIsMusicBound = true;
+                        mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+
+                        if(lstSong.size() > 0){
+                            updateTime();
+                            mIsPlaying = true;
+                            setTimeSong();
+                            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        }
                     }
+
                 }else{
-                    mServiceMusicPlayer.setList(lstSong);
-                    mIsMusicBound = true;
-                    mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+                    if(isOnline){
+                        mServiceMusicPlayer.setmSongsOnline(lstSongOnline);
+                        mIsMusicBound = true;
+                        mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
 
-                    if(lstSong.size() > 0){
-                        updateTime();
-                        mIsPlaying = true;
-                        playSongList();
-                        //set title
-                        mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
-                        mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        if(lstSongOnline.size() > 0){
+                            updateTime();
+                            mIsPlaying = true;
+                            playSongList();
+                            //set title
+                            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        }
+                    }else {
+                        mServiceMusicPlayer.setList(lstSong);
+                        mIsMusicBound = true;
+                        mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+
+                        if(lstSong.size() > 0){
+                            updateTime();
+                            mIsPlaying = true;
+                            playSongList();
+                            //set title
+                            mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                            mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                        }
                     }
+
                 }
                 customSimpleNotification(this);
             }else{
@@ -350,22 +401,43 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         public void onServiceConnected(ComponentName name, IBinder service) {
             ServiceMusicPlayer.MusicBinder binder = (ServiceMusicPlayer.MusicBinder) service;
             mServiceMusicPlayer = binder.getService();
-            mServiceMusicPlayer.setList(lstSong);
-            mIsMusicBound = true;
-            mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
-            MainActivity.serviceMusicPlayer = mServiceMusicPlayer;
-            StaticClass.serviceMusicPlayer = mServiceMusicPlayer;
-            if(lstSong.size() > 0){
-                updateTime();
-                mIsPlaying = true;
-                playSongList();
-                //set title
-                mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
-                mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
-                fragmentSongDisc.startRotate();
+            mServiceMusicPlayer.isOnline = isOnline;
+            if(isOnline){
+                mServiceMusicPlayer.setmSongsOnline(lstSongOnline);
+                mIsMusicBound = true;
+                mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+                MainActivity.serviceMusicPlayer = mServiceMusicPlayer;
+                StaticClass.serviceMusicPlayer = mServiceMusicPlayer;
+                if(lstSongOnline.size() > 0){
+                    updateTime();
+                    mIsPlaying = true;
+                    playSongList();
+                    //set title
+                    mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                    mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                    fragmentSongDisc.startRotate();
+                }
+                customSimpleNotification(PlayMusicActivity.this);
+                MainActivity.serviceMusicPlayer.context = PlayMusicActivity.this;
+            }else{
+                mServiceMusicPlayer.setList(lstSong);
+                mIsMusicBound = true;
+                mServiceMusicPlayer.setPlaybackInfoListener(new PlaybackListener());
+                MainActivity.serviceMusicPlayer = mServiceMusicPlayer;
+                StaticClass.serviceMusicPlayer = mServiceMusicPlayer;
+                if(lstSong.size() > 0){
+                    updateTime();
+                    mIsPlaying = true;
+                    playSongList();
+                    //set title
+                    mToolbarMusicPlay.setTitle(mServiceMusicPlayer.mSongTitle);
+                    mImgBtnPlay.setBackground(ContextCompat.getDrawable(PlayMusicActivity.this, R.drawable.iconpause));
+                    fragmentSongDisc.startRotate();
+                }
+                customSimpleNotification(PlayMusicActivity.this);
+                MainActivity.serviceMusicPlayer.context = PlayMusicActivity.this;
             }
-            customSimpleNotification(PlayMusicActivity.this);
-            MainActivity.serviceMusicPlayer.context = PlayMusicActivity.this;
+
 
         }
 
@@ -408,9 +480,16 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
                 isNew ++;
                 fragmentSongDisc.startRotate();
             }
-            Song song = lstSong.get(index);
-            mToolbarMusicPlay.setTitle(song.name);
-            setTimeSong();
+            if(isOnline){
+                com.example.mp3player.Model.Host.Song song = lstSongOnline.get(index);
+                mToolbarMusicPlay.setTitle(song.getTen());
+                setTimeSong();
+            }else{
+                Song song = lstSong.get(index);
+                mToolbarMusicPlay.setTitle(song.name);
+                setTimeSong();
+            }
+
             //setIconMusicController();
         }
 

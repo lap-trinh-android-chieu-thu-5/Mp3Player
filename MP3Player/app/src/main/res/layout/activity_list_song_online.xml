@@ -12,6 +12,8 @@
         android:layout_height="300dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            app:expandedTitleTextAppearance="@style/TextAppearance.Design.CollapsingToolbar.Expanded"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:expandedTitleGravity="center|bottom"
             app:expandedTitleMarginBottom="33dp"
             android:background="@mipmap/ic_launcher"
@@ -22,7 +24,7 @@
             android:layout_height="match_parent">
 
             <View
-                android:background="#79C7A8A2"
+                android:background="@drawable/custom_background_playlist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

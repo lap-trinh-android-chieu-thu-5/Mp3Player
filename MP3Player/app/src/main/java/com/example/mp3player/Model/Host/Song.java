@@ -1,5 +1,8 @@
 package com.example.mp3player.Model.Host;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -20,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 "tencasy",
 "link"
 })
-public class Song {
+public class Song implements Parcelable {
 
 @JsonProperty("id")
 private String id;
@@ -41,7 +44,28 @@ private String link;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-@JsonProperty("id")
+    protected Song(Parcel in) {
+        id = in.readString();
+        idplaylist = in.readString();
+        ten = in.readString();
+        hinh = in.readString();
+        tencasy = in.readString();
+        link = in.readString();
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
+
+    @JsonProperty("id")
 public String getId() {
 return id;
 }
@@ -131,4 +155,18 @@ public void setAdditionalProperty(String name, Object value) {
 this.additionalProperties.put(name, value);
 }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(idplaylist);
+        dest.writeString(ten);
+        dest.writeString(hinh);
+        dest.writeString(tencasy);
+        dest.writeString(link);
+    }
 }

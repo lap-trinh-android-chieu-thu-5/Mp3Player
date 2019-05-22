@@ -42,7 +42,7 @@ public class OnlinePlaylistAdapter extends ArrayAdapter<Playlist> {
         }
         Playlist playlist = getItem(position);
         Picasso.with(getContext()).load(playlist.getHinhnen()).into(viewHolder.imageViewBackground);
-        //Picasso.with(getContext()).load(playlist.getIcon()).into(viewHolder.imageViewPlaylist);
+        Picasso.with(getContext()).load(playlist.getIcon()).into(viewHolder.imageViewPlaylist);
         viewHolder.txtPlaylistName.setText(playlist.getTen());
         return convertView;
     }

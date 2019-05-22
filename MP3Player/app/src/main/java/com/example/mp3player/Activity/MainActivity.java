@@ -68,25 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         map();
         //initPermission();
-
-        //testAPI();
-    }
-
-    private void testAPI(){
-        DataService dataService = APIService.getService();
-        Call<List<Playlist>> callback = dataService.getDataPlaylist();
-        callback.enqueue(new Callback<List<Playlist>>() {
-            @Override
-            public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
-                ArrayList<Playlist> playlists = (ArrayList<Playlist>)response.body();
-                int a = 0;
-            }
-
-            @Override
-            public void onFailure(Call<List<Playlist>> call, Throwable t) {
-                int b = 0;
-            }
-        });
     }
 
     @Override
@@ -110,9 +91,7 @@ public class MainActivity extends AppCompatActivity {
         }else{
             mFrameLayout.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.VISIBLE);
-
         }
-
 
         MainViewPaggerAdapter mainViewPaggerAdapter = new MainViewPaggerAdapter(getSupportFragmentManager());
 
@@ -148,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         getSupportActionBar().hide();
+                        break;
                 }
             }
 

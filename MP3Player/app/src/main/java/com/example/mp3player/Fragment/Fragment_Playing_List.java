@@ -15,6 +15,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.mp3player.Activity.MainActivity;
 import com.example.mp3player.Activity.PlayMusicActivity;
 import com.example.mp3player.Adapter.PlayingListAdapter;
 import com.example.mp3player.Interface.ItemClickListenerToActivity;
@@ -39,6 +40,15 @@ public class Fragment_Playing_List extends Fragment implements ItemClickListener
 
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mRecyclerView.setAdapter(mPlayingListAdapter);
+        }else{
+            if(PlayMusicActivity.lstSongOnline.size() > 0){
+                mPlayingListAdapter = new PlayingListAdapter(getActivity(), PlayMusicActivity.lstSongOnline, 1);
+                //set item listner
+                mPlayingListAdapter.setmItemClickListenerToFragment(this);
+
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                mRecyclerView.setAdapter(mPlayingListAdapter);
+            }
         }
         return view;
     }

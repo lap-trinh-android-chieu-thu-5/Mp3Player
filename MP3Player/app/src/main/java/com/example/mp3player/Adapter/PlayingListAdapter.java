@@ -17,11 +17,18 @@ import java.util.List;
 public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.ViewHolder> {
     Context mContext;
     List<Song> mLstSong;
+    List<com.example.mp3player.Model.Host.Song> mLstSongOnline;
     private ItemClickListenerToFragment mItemClickListenerToFragment;
 
     public  PlayingListAdapter(Context context, List<Song> lstSong){
         this.mContext = context;
         this.mLstSong = lstSong;
+    }
+
+    public PlayingListAdapter(Context content, List<com.example.mp3player.Model.Host.Song> mLstSongOnline, int temp){
+        this.mContext = content;
+        this.mLstSongOnline = mLstSongOnline;
+        int a= 0;
     }
 
     @Override
@@ -34,22 +41,40 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        if(mLstSongOnline != null){
+            com.example.mp3player.Model.Host.Song song = mLstSongOnline.get(position);
+            int a=0;
+            holder.mTxtArtistName.setText(song.getTencasy());
+            holder.mTxtIndex.setText(position + 1 + "");
+            holder.mTxtSongName.setText(song.getTen());
 
-        Song song = mLstSong.get(position);
-        int a=0;
-        holder.mTxtArtistName.setText(song.artist.name);
-        holder.mTxtIndex.setText(position + 1 + "");
-        holder.mTxtSongName.setText(song.name);
-
-        holder.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position, boolean isLongClick) {
-                //truyen du lieu cho fragment o day
-                if(mItemClickListenerToFragment != null){
-                    mItemClickListenerToFragment.onClick(view, position, isLongClick);
+            holder.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, int position, boolean isLongClick) {
+                    //truyen du lieu cho fragment o day
+                    if(mItemClickListenerToFragment != null){
+                        mItemClickListenerToFragment.onClick(view, position, isLongClick);
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Song song = mLstSong.get(position);
+            int a=0;
+            holder.mTxtArtistName.setText(song.artist.name);
+            holder.mTxtIndex.setText(position + 1 + "");
+            holder.mTxtSongName.setText(song.name);
+
+            holder.setItemClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, int position, boolean isLongClick) {
+                    //truyen du lieu cho fragment o day
+                    if(mItemClickListenerToFragment != null){
+                        mItemClickListenerToFragment.onClick(view, position, isLongClick);
+                    }
+                }
+            });
+        }
+
     }
 
     public void setmItemClickListenerToFragment(ItemClickListenerToFragment itemClickListenerToFragment){
@@ -89,6 +114,4 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
             return true;
         }
     }
-
-
 }

@@ -39,7 +39,6 @@ public class Fragment_Home extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         mListViewPlaylist = view.findViewById(R.id.listview_playlist);
         mTextViewTitlePlaylist = view.findViewById(R.id.textview_title);
-        mTextViewMorePlayist = view.findViewById(R.id.textview_more_playlist);
         getData();
         return view;
     }
@@ -57,7 +56,7 @@ public class Fragment_Home extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(getActivity(), ListSongOnlineActivity.class);
-                        intent.putExtra("itemplaylít", playlists.get(position));
+                        intent.putExtra("itemplaylist", playlists.get(position));
                         startActivity(intent);
                     }
                 });
@@ -73,6 +72,6 @@ public class Fragment_Home extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }

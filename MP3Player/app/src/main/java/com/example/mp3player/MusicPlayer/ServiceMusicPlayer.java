@@ -33,8 +33,10 @@ import java.util.Random;
 
 public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener{
+    public boolean isOnline = false;
     private MediaPlayer mPlayer;
     private List<Song> mSongs;
+    private List<com.example.mp3player.Model.Host.Song> mSongsOnline;
     private int mSongPos;
     private final IBinder mMusicBind = new MusicBinder();
     public String mSongTitle = "";
@@ -106,6 +108,7 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
 
         //set lai cac thong so ben activity
         //mPlaybackInfoListener.onSetTime();
+
         mPlaybackInfoListener.onSongChanged(mSongPos);
 
         mp.start();
@@ -123,20 +126,30 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
         isPlaying = true;
 
         mPlayer.reset();
-        Song playSong = mSongs.get(mSongPos);
-        mSongTitle = playSong.name;
+        if(isOnline){
+            com.example.mp3player.Model.Host.Song playSong = mSongsOnline.get(mSongPos);
+            mSongTitle = playSong.getTen();
 
-        Long currentSong = playSong.idSong;
-        Uri trackUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currentSong);
-        try {
-            mPlayer.setDataSource(getApplicationContext(), trackUri);
+            try {
+                mPlayer.setDataSource(playSong.getLink());
+            } catch (Exception e) {
+                Log.e("MUSIC SERVICE", "Error starting data source", e);
+            }
+        }else{
+            Song playSong = mSongs.get(mSongPos);
+            mSongTitle = playSong.name;
 
-        } catch (Exception e) {
-            Log.e("MUSIC SERVICE", "Error starting data source", e);
+            Long currentSong = playSong.idSong;
+            Uri trackUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currentSong);
+            try {
+                mPlayer.setDataSource(getApplicationContext(), trackUri);
+
+            } catch (Exception e) {
+                Log.e("MUSIC SERVICE", "Error starting data source", e);
+            }
+
         }
-
         mPlayer.prepareAsync();
-
         //set song time lai activit
     }
 
@@ -187,12 +200,20 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
         if (isShuffle) {
             int newSongPos = mSongPos;
             while (newSongPos == mSongPos) {
-                newSongPos = mRandom.nextInt(mSongs.size());
+                if(isOnline){
+                    newSongPos = mRandom.nextInt(mSongsOnline.size());
+                }else{
+                    newSongPos = mRandom.nextInt(mSongs.size());
+                }
             }
             mSongPos = newSongPos;
         } else {
             mSongPos++;
-            if (mSongPos >= mSongs.size()) mSongPos = 0;
+            if(isOnline){
+                if (mSongPos >= mSongsOnline.size()) mSongPos = 0;
+            }else{
+                if (mSongPos >= mSongs.size()) mSongPos = 0;
+            }
         }
         playSong();
     }
@@ -225,5 +246,13 @@ public class ServiceMusicPlayer  extends Service implements MediaPlayer.OnPrepar
 
     public void setPlaybackInfoListener(PlayBackInfoListenerInterface listener) {
         mPlaybackInfoListener = listener;
+    }
+
+    public void setmSongsOnline(List<com.example.mp3player.Model.Host.Song> mSongsOnline) {
+        this.mSongsOnline = mSongsOnline;
+    }
+
+    public List<com.example.mp3player.Model.Host.Song> getSongsOnline(){
+        return this.mSongsOnline;
     }
 }
