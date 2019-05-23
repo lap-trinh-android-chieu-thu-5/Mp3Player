@@ -28,7 +28,6 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
     public PlayingListAdapter(Context content, List<com.example.mp3player.Model.Host.Song> mLstSongOnline, int temp){
         this.mContext = content;
         this.mLstSongOnline = mLstSongOnline;
-        int a= 0;
     }
 
     @Override
@@ -43,7 +42,6 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
 
         if(mLstSongOnline != null){
             com.example.mp3player.Model.Host.Song song = mLstSongOnline.get(position);
-            int a=0;
             holder.mTxtArtistName.setText(song.getTencasy());
             holder.mTxtIndex.setText(position + 1 + "");
             holder.mTxtSongName.setText(song.getTen());
@@ -59,7 +57,6 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
             });
         }else{
             Song song = mLstSong.get(position);
-            int a=0;
             holder.mTxtArtistName.setText(song.artist.name);
             holder.mTxtIndex.setText(position + 1 + "");
             holder.mTxtSongName.setText(song.name);
@@ -82,7 +79,11 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
     }
     @Override
     public int getItemCount() {
-        return mLstSong.size();
+        if(mLstSongOnline.size() > 0){
+            return  mLstSongOnline.size();
+        }else{
+            return mLstSong.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
