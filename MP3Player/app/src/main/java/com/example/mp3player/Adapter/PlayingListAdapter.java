@@ -39,7 +39,6 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         if(mLstSongOnline != null){
             com.example.mp3player.Model.Host.Song song = mLstSongOnline.get(position);
             holder.mTxtArtistName.setText(song.getTencasy());
@@ -79,10 +78,14 @@ public class PlayingListAdapter extends RecyclerView.Adapter<PlayingListAdapter.
     }
     @Override
     public int getItemCount() {
-        if(mLstSongOnline.size() > 0){
-            return  mLstSongOnline.size();
-        }else{
+        if(mLstSongOnline == null){
             return mLstSong.size();
+        }else{
+            if(mLstSongOnline.size() > 0 ){
+                return  mLstSongOnline.size();
+            }else{
+                return mLstSong.size();
+            }
         }
     }
 

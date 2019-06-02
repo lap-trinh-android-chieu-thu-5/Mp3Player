@@ -476,6 +476,7 @@ public class PlayMusicActivity extends AppCompatActivity implements ItemClickLis
         }
         @Override
         public void  onSongChanged(int index) {
+            int a = 0;
             if(isNew == 1){
                 isNew ++;
                 fragmentSongDisc.startRotate();
